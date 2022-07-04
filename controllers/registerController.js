@@ -31,6 +31,7 @@ const handleNewUser = async (req, res) => {
       username: user,
       password: hashedPwd,
     };
+
     usersDB.setUsers([...usersDB.users, newUser]);
 
     await fsPromises.writeFile(
