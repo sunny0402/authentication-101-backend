@@ -51,3 +51,7 @@ router
   .route("/")
   .get(verifyJWT, employeesController.getAllEmployees)
 ```
+
+## Next Starting Point
+
+https://youtu.be/f2EqECiTBL8?t=18641

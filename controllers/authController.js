@@ -27,9 +27,13 @@ const handleLogin = async (req, res) => {
   const match = await bcrypt.compare(pwd, foundUser.password);
 
   if (match) {
+    //admin, editor, user
+    const roles = Object.values(foundUser.roles);
     //create JWT
     const accessToken = jwt.sign(
-      { username: foundUser.username },
+      {
+        UserInfo: { username: foundUser.username, roles: roles },
+      },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "25s" }
     );
@@ -53,6 +57,8 @@ const handleLogin = async (req, res) => {
     // res.json({ success: `User ${user} is logged in!` });
 
     //send refresh token as a cookie
+    //if testing refresh endpoint with postman... comment out secure: true
+    //however, refresh token does not store any info about user roles...
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
       sameSite: "None",
