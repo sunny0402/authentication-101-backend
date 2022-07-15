@@ -55,3 +55,8 @@ router
 ## Next Starting Point
 
 https://youtu.be/f2EqECiTBL8?t=18641
+
+## TODO
+
+Create two branches backend_mongo backend_mysql
+Follow tutorial with Mongo then switch to Sequelize ...
