@@ -1,15 +1,8 @@
-const usersDB = {
-  users: require("../model/users.json"),
-  setUsers: function (data) {
-    this.users = data;
-  },
-};
+const User = require("../model/User");
 
 const bcrypt = require("bcrypt");
 
 const jwt = require("jsonwebtoken");
-const fsPromises = require("fs").promises;
-const path = require("path");
 
 const handleLogin = async (req, res) => {
   const { user, pwd } = req.body;
@@ -18,7 +11,7 @@ const handleLogin = async (req, res) => {
       message: "Username and password are required.",
     });
 
-  const foundUser = usersDB.users.find((person) => person.username === user);
+  const foundUser = await User.findOne({ username: user }).exec();
 
   if (!foundUser) return res.sendStatus(401); //unauthorized
 
@@ -34,7 +27,7 @@ const handleLogin = async (req, res) => {
         UserInfo: { username: foundUser.username, roles: roles },
       },
       process.env.ACCESS_TOKEN_SECRET,
-      { expiresIn: "25s" }
+      { expiresIn: "30s" }
     );
 
     const refreshToken = jwt.sign(
@@ -44,27 +37,26 @@ const handleLogin = async (req, res) => {
     );
     //save refresh token of current user in db
     //  will alow us to create logout route
-    const otherUsers = usersDB.users.filter(
-      (person) => person.username !== foundUser.username
-    );
-    const currentUser = { ...foundUser, refreshToken };
-    usersDB.setUsers([...otherUsers, currentUser]);
-    await fsPromises.writeFile(
-      path.join(__dirname, "..", "model", "users.json"),
-      JSON.stringify(usersDB.users)
-    );
-    // res.json({ success: `User ${user} is logged in!` });
+    foundUser.refreshToken = refreshToken;
+    const result = await foundUser.save();
+
+    console.log("authController: result: ", result);
+    console.log("authController: roles: ", roles);
 
     //send refresh token as a cookie
     //if testing refresh endpoint with postman... comment out secure: true
     //however, refresh token does not store any info about user roles...
+
+    // for testing comment seccure
+    // secure: true,
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
       sameSite: "None",
-      secure: true,
+      //secure: true,
       maxAge: 24 * 60 * 60 * 1000,
     });
-    res.json({ accessToken }); //frontend needs to store access token in memory
+    // send authorization roles and access token to user
+    res.json({ roles, accessToken }); //frontend needs to store access token in memory
   } else {
     res.sendStatus(401);
   }
