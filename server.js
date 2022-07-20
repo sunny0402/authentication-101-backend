@@ -49,6 +49,8 @@ app.use("/logout", require("./routes/logout"));
 //every route after will use verifyJWT
 app.use(verifyJWT);
 app.use("/employees", require("./routes/api/employees"));
+//allow admin to perform crud operations on users of app
+app.use("/users", require("./routes/api/users"));
 
 app.all("*", (req, res) => {
   res.status(404);
