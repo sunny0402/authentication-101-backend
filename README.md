@@ -30,4 +30,5 @@ Users collection for authentication, authorization. Users have roles.
 
 ## Tutorial Source
 
+Thank you: https://github.com/gitdagray
 https://github.com/gitdagray/node_js_resources

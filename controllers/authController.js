@@ -20,7 +20,8 @@ const handleLogin = async (req, res) => {
 
   if (match) {
     //admin, editor, user
-    const roles = Object.values(foundUser.roles);
+    //filter(Boolean): so do not send Null if a user only has one type of role
+    const roles = Object.values(foundUser.roles).filter(Boolean);
     //create JWT
     const accessToken = jwt.sign(
       {

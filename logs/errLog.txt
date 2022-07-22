@@ -1,1 +1,4 @@
 20220630	19:29:30	25a85033-e3ff-4d47-ad2e-5e9c5df2f62e	SyntaxError: Unexpected token " in JSON at position 0
+20220720	15:03:18	4c776468-aa48-4a8b-9184-3b2eb13a4203	Error: Not allowed by CORS
+20220720	15:04:45	4657ef63-a391-4cfb-be9e-333d8f12dcf1	TypeError: res.headers is not a function
+20220720	15:35:53	aeadf025-3e09-4b63-84b2-2285a398e8eb	TypeError: res.headers is not a function
