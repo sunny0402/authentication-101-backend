@@ -4,6 +4,10 @@ const jwt = require("jsonwebtoken");
 
 const handleRefreshToken = async (req, res) => {
   const cookies = req.cookies;
+  console.log(
+    "refreshTokenController: JSON.stringify(req.cookies): ",
+    JSON.stringify(req.cookies)
+  );
   console.log("refreshTokenController: cookies.jwt: ", cookies.jwt);
 
   //optional chaining ... if we have cookies ... and they have jwt property

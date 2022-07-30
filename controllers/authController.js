@@ -48,12 +48,12 @@ const handleLogin = async (req, res) => {
     //if testing refresh endpoint with postman... comment out secure: true
     //however, refresh token does not store any info about user roles...
 
-    // for testing comment seccure
+    // ONLY for testing with postman comment seccure
     // secure: true,
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
       sameSite: "None",
-      //secure: true,
+      secure: true,
       maxAge: 24 * 60 * 60 * 1000,
     });
     // send authorization roles and access token to user
